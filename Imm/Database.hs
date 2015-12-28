@@ -93,7 +93,7 @@ instance (MonadBase IO m, MonadError ImmError m) => DatabaseWriter (ReaderT File
         io . debugM "imm.database" $ "Storing last update time [" ++ show date ++ "] at <" ++ dataDirectory </> dataFile ++ ">"
         try . io . createDirectoryIfMissing True $ dataDirectory
         (file, stream) <- try $ openTempFile dataDirectory dataFile
-        io $ hPutStrLn stream (formatTime defaultTimeLocale "%c" date)
+        io $ hPutStrLn stream (formatTime Data.Time.defaultTimeLocale "%c" date)
         io $ hClose stream
         try $ renameFile file (dataDirectory </> dataFile)
 
